@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(
-    Column(
-      children: [
-        Text('Deliver features faster', textDirection: TextDirection.ltr,),
-        Text('Craft beautiful UIs', textDirection: TextDirection.ltr,),
-        Expanded(
-            child: FittedBox(
+  runApp(MaterialApp(
+    home:Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Image.asset(
+          "images/logo.png",
           fit: BoxFit.contain,
-          child: const FlutterLogo(),
-        ))
-      ],
+          height: 72,
+        ),
+        toolbarHeight: 88,
+        backgroundColor: const Color(0xff198314),
+        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {  },
+        child: Icon(Icons.add),
+        backgroundColor: const Color(0xff198314),
     ),
+      ),
+
+    )
   );
 }
