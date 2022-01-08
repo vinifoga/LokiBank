@@ -17,13 +17,50 @@ class LokiBankApp extends StatelessWidget {
 }
 
 class FormularioTransferencia extends StatelessWidget {
+  get onPressed => null;
+
+  get child => null;
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        appBar: AppBarLoki(
-          appBarTitle: "Criando Transferência",
-        ),
-        body: Text('Teste'));
+    String _textoBotaoConfirmar;
+    return Scaffold(
+      appBar: const AppBarLoki(
+        appBarTitle: "Criando Transferência",
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: TextField(
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
+              decoration: InputDecoration(
+                  labelText: 'Número da Conta', hintText: '3582'),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: TextField(
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
+              decoration: InputDecoration(
+                  icon: Icon(Icons.monetization_on),
+                  labelText: 'Valor',
+                  hintText: '100.00'),
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          ElevatedButton(
+            child: const Text('Confirmar'),
+            onPressed: () => {},
+          )
+        ],
+      ),
+    );
   }
 }
 
