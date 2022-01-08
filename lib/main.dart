@@ -17,13 +17,11 @@ class LokiBankApp extends StatelessWidget {
 }
 
 class FormularioTransferencia extends StatelessWidget {
-  get onPressed => null;
-
-  get child => null;
+  final TextEditingController _numeroContaController = TextEditingController();
+  final TextEditingController _valorController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    String _textoBotaoConfirmar;
     return Scaffold(
       appBar: const AppBarLoki(
         appBarTitle: "Criando Transferência",
@@ -31,23 +29,26 @@ class FormularioTransferencia extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
-              style: TextStyle(
+              controller: _numeroContaController,
+              style: const TextStyle(
                 fontSize: 16.0,
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   labelText: 'Número da Conta', hintText: '3582'),
               keyboardType: TextInputType.number,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: TextField(
-              style: TextStyle(
+              controller: _valorController,
+              style: const TextStyle(
                 fontSize: 16.0,
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   icon: Icon(Icons.monetization_on),
                   labelText: 'Valor',
                   hintText: '100.00'),
@@ -56,7 +57,14 @@ class FormularioTransferencia extends StatelessWidget {
           ),
           ElevatedButton(
             child: const Text('Confirmar'),
-            onPressed: () => {},
+            onPressed: () {
+              debugPrint('clicou');
+              final int? numeroConta =
+                  int.tryParse(_numeroContaController.text);
+              final double? valor = double.tryParse(_valorController.text);
+              final transferenciaCriada = Transferencia(valor!, numeroConta!);
+              debugPrint('$transferenciaCriada');
+            },
           )
         ],
       ),
@@ -107,6 +115,11 @@ class Transferencia {
   final int numeroConta;
 
   Transferencia(this.valor, this.numeroConta);
+
+  @override
+  String toString() {
+    return 'Transferencia{valor: $valor, numeroConta: $numeroConta}';
+  }
 }
 
 class AppBarLoki extends StatelessWidget implements PreferredSizeWidget {
