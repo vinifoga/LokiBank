@@ -10,7 +10,7 @@ class LokiBankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: FormularioTransferencia(),
+        body: ListaTransferencias(),
       ),
     );
   }
@@ -30,33 +30,42 @@ class FormularioTransferencia extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Editor(controlador: _numeroContaController, rotulo: 'Número Conta', dica: '3582'),
-          Editor(controlador: _valorController, rotulo: 'Valor', dica: '100', icone: Icons.monetization_on),
+          Editor(
+              controlador: _numeroContaController,
+              rotulo: 'Número Conta',
+              dica: '3582'),
+          Editor(
+              controlador: _valorController,
+              rotulo: 'Valor',
+              dica: '100',
+              icone: Icons.monetization_on),
           ElevatedButton(
             child: const Text('Confirmar'),
-            onPressed: () async => _criaTransferencia(),
+            onPressed: () async => _criaTransferencia(context),
           )
         ],
       ),
     );
   }
 
-  void _criaTransferencia() {
-    final int? numeroConta =
-        int.tryParse(_numeroContaController.text);
+  void _criaTransferencia(BuildContext context) {
+    final int? numeroConta = int.tryParse(_numeroContaController.text);
     final double? valor = double.tryParse(_valorController.text);
     final transferenciaCriada = Transferencia(valor!, numeroConta!);
+    debugPrint('Criando Transferencia');
     debugPrint('$transferenciaCriada');
+    Navigator.pop(context, transferenciaCriada);
   }
 }
 
 class Editor extends StatelessWidget {
   final TextEditingController controlador;
   final String rotulo;
-  final String ?dica;
-  final IconData ?icone;
+  final String? dica;
+  final IconData? icone;
 
-  const Editor({required this.controlador, required this.rotulo, this.dica, this.icone});
+  const Editor(
+      {required this.controlador, required this.rotulo, this.dica, this.icone});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +99,18 @@ class ListaTransferencias extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          final Future<Transferencia?> future = Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return FormularioTransferencia();
+            }),
+          );
+          future.then((transferenciaRecebida){
+            debugPrint('chegou no then do future');
+            debugPrint('$transferenciaRecebida');
+          });
+        },
         child: Icon(Icons.add),
         backgroundColor: const Color(0xff198314),
       ),
