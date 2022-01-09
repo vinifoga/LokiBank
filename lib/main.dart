@@ -9,9 +9,16 @@ class LokiBankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: ListaTransferencias(),
+      theme: ThemeData(
+        primaryColor: Colors.blue[900],
+        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.amber[700]),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.amber[700],
+          textTheme: ButtonTextTheme.primary,
+        )
+
       ),
+      home: ListaTransferencias(),
     );
   }
 }
@@ -114,27 +121,30 @@ class ListaTransferenciasState extends State<ListaTransferencias> {
           return ItemTransferencia(transferencia);
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final Future<Transferencia?> future = Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return FormularioTransferencia();
-            }),
-          );
-          future.then((transferenciaRecebida) {
-            Future.delayed(Duration(seconds: 1), () {
-              debugPrint('chegou no then do future');
-              debugPrint('$transferenciaRecebida');
-              setState(() {
-                widget._transferencias.add(transferenciaRecebida!);
-              });
+      floatingActionButton: Theme(
+        data:Theme.of(context).copyWith(splashColor: Colors.amber[700]),
+        child: FloatingActionButton(
+          onPressed: () {
+            final Future<Transferencia?> future = Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return FormularioTransferencia();
+              }),
+            );
+            future.then((transferenciaRecebida) {
+              Future.delayed(Duration(seconds: 1), () {
+                debugPrint('chegou no then do future');
+                debugPrint('$transferenciaRecebida');
+                setState(() {
+                  widget._transferencias.add(transferenciaRecebida!);
+                });
 
+              });
             });
-          });
-        },
-        child: Icon(Icons.add),
-        backgroundColor: const Color(0xff198314),
+          },
+          child: Icon(Icons.add),
+          backgroundColor: const Color(0xff198314),
+        ),
       ),
     );
   }
