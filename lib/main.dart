@@ -87,16 +87,18 @@ class Editor extends StatelessWidget {
 }
 
 class ListaTransferencias extends StatelessWidget {
+  final List<Transferencia> _transferencias = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarLoki(appBarTitle: "Transferências"),
-      body: Column(
-        children: [
-          ItemTransferencia(Transferencia(100, 3582)),
-          ItemTransferencia(Transferencia(200, 3583)),
-          ItemTransferencia(Transferencia(300, 3584)),
-        ],
+      body: ListView.builder(
+        itemCount: _transferencias.length,
+        itemBuilder: (context, indice) {
+          return ItemTransferencia(_transferencias[indice]);
+        },
+
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -109,6 +111,7 @@ class ListaTransferencias extends StatelessWidget {
           future.then((transferenciaRecebida){
             debugPrint('chegou no then do future');
             debugPrint('$transferenciaRecebida');
+            _transferencias.add(transferenciaRecebida!);
           });
         },
         child: Icon(Icons.add),
